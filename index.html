@@ -27,6 +27,20 @@
 	<script>
 		vkBridge.send("VKWebAppInit", {});
 		vkBridge.send('VKWebAppCheckNativeAds', { ad_format: 'interstitial'});
+		vkBridge.send('VKWebAppCheckNativeAds', { ad_format: 'reward' })
+		  .then((data) => {
+			if (data.result) {
+			  // Предзагруженная реклама есть.
+		 
+			  // Теперь можно создать кнопку
+			  // "Прокачать героя за рекламу".   
+			  // ...
+					
+			  } else {
+				console.log('Рекламные материалы не найдены.');
+			  }
+		  })
+		  .catch((error) => { console.log(error); /* Ошибка */  });
 	</script>
     <script>
       var container = document.querySelector("#unity-container");
@@ -142,7 +156,19 @@
 			  .catch((error) => { console.log(error); /* Ошибка */ });
 		}
 		
-		function showRewardedAd(){}
+		function showRewardedAd(){
+			// Показать рекламу
+			unityI.SendMessage('SDKLANG','AudioListener0');
+		
+			vkBridge.send('VKWebAppShowNativeAds', { ad_format: 'reward' })
+				.then((data) => {
+				  if (data.result) // Успех
+					unityI.SendMessage('SDKLANG','GetReward');
+				  else // Ошибка 
+					unityI.SendMessage('SDKLANG','AudioListener1');
+			})
+			.catch((error) => { unityI.SendMessage('SDKLANG','AudioListener1'); /* Ошибка */ });
+		}
 		
 		function GameReadyYandex(){}		
     </script>
