@@ -25,8 +25,9 @@
       </div>
     </div>
 	<script>
-  vkBridge.send("VKWebAppInit", {});
-</script>
+		vkBridge.send("VKWebAppInit", {});
+		bridge.send('VKWebAppCheckNativeAds', { ad_format: 'interstitial'});
+	</script>
     <script>
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
@@ -112,24 +113,34 @@
 	
 	
     <script>
-function StartYandex(){
-      try {
-        unityI.SendMessage('SDKLANG', 'GettingLang', 'ru');
+		function StartYandex(){
+		  try {
+			unityI.SendMessage('SDKLANG', 'GettingLang', 'ru');
 
-        var ua = window.navigator.userAgent.toLowerCase();
-        var mobilePattern = /android|iphone|ipad|ipod/i;
+			var ua = window.navigator.userAgent.toLowerCase();
+			var mobilePattern = /android|iphone|ipad|ipod/i;
 
-        if(ua.search(mobilePattern) !== -1 || (ua.indexOf("macintosh") !== -1 && "ontouchend" in document)){
-          unityI.SendMessage('SDKLANG','GettingDevice', '1');
-        }else{
-          unityI.SendMessage('SDKLANG', 'GettingDevice', '0');
-        }
-      } catch (error) {
-        ;
-      }
-    }
+			if(ua.search(mobilePattern) !== -1 || (ua.indexOf("macintosh") !== -1 && "ontouchend" in document)){
+			  unityI.SendMessage('SDKLANG','GettingDevice', '1');
+			}else{
+			  unityI.SendMessage('SDKLANG', 'GettingDevice', '0');
+			}
+		  } catch (error) {
+			;
+		  }
+		}
 	  
-		function showFullscrenAd(){}
+		function showFullscrenAd(){
+			// Показать рекламу
+			bridge.send('VKWebAppShowNativeAds', { ad_format: 'interstitial' })
+			  .then((data) => {
+				if (data.result)
+				  console.log('Реклама показана');
+				else
+				  console.log('Ошибка при показе');
+			  })
+			  .catch((error) => { console.log(error); /* Ошибка */ });
+		}
 		
 		function showRewardedAd(){}
 		
