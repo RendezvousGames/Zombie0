@@ -23,7 +23,7 @@
         <div id="unity-fullscreen-button"></div>
         <div id="unity-build-title">SkyscraperZombie</div>
       </div>
-    </div>
+    </div><!-- 1 -->
 	<script>
 		vkBridge.send("VKWebAppInit", {});
 		vkBridge.send('VKWebAppCheckNativeAds', { ad_format: 'interstitial'});
@@ -162,10 +162,15 @@
 		
 			vkBridge.send('VKWebAppShowNativeAds', { ad_format: 'reward' })
 				.then((data) => {
-				  if (data.result) // Успех
+				  if (data.result){
+				  // Успех
 					unityI.SendMessage('SDKLANG','GetReward');
-				  else // Ошибка 
 					unityI.SendMessage('SDKLANG','AudioListener1');
+				}
+				  else {
+				  // Ошибка 
+					unityI.SendMessage('SDKLANG','AudioListener1');
+					}
 			})
 			.catch((error) => { unityI.SendMessage('SDKLANG','AudioListener1'); /* Ошибка */ });
 		}
