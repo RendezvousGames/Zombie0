@@ -23,7 +23,7 @@
         <div id="unity-fullscreen-button"></div>
         <div id="unity-build-title">SkyscraperZombie</div>
       </div>
-    </div><!-- 1 -->
+    </div>
 	<script>
 		vkBridge.send("VKWebAppInit", {});
 		vkBridge.send('VKWebAppCheckNativeAds', { ad_format: 'interstitial'});
@@ -42,7 +42,7 @@
 		  })
 		  .catch((error) => { console.log(error); /* Ошибка */  });
 	</script>
-    <script>
+    <script>	
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
       var loadingBar = document.querySelector("#unity-loading-bar");
@@ -130,6 +130,7 @@
 		function StartYandex(){
 		  try {
 			unityI.SendMessage('SDKLANG', 'GettingLang', 'ru');
+			unityI.SendMessage('SDKLANG', 'SetPlatform', 'vk');
 
 			var ua = window.navigator.userAgent.toLowerCase();
 			var mobilePattern = /android|iphone|ipad|ipod/i;
